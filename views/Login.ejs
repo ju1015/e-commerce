@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page!</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      overflow: hidden;
+    }
+
+    /* Fade-in animation for container */
+    .login-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 350px;
+      text-align: center;
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* Floating animation for heading */
+    .login-container h2 {
+      margin-bottom: 1.5rem;
+      color: #333;
+      animation: float 2s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Slide-in inputs */
+    .form-group {
+      margin-bottom: 1rem;
+      text-align: left;
+      animation: slideIn 1s ease forwards;
+      opacity: 0;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.5s; }
+    .form-group:nth-child(2) { animation-delay: 0.8s; }
+
+    @keyframes slideIn {
+      0% { transform: translateX(-50px); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      transition: transform 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: #2575fc;
+      outline: none;
+      transform: scale(1.05);
+    }
+
+    /* Button animation */
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #2575fc;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      animation: pulse 2s infinite;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background: #1e5ed7;
+      transform: scale(1.1);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* Fade-in links */
+    .extra-links {
+      margin-top: 1rem;
+      font-size: 14px;
+      animation: fadeUp 1.2s ease forwards;
+      opacity: 0;
+      animation-delay: 1.2s;
+    }
+
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .extra-links a {
+      color: #2575fc;
+      text-decoration: none;
+    }
+
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
+
+        .go-home {
+      margin-top: 15px;
+      background: #ff5722;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      animation: pulse 2s infinite;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .go-home:hover {
+      background: #e64a19;
+      transform: scale(1.1);
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form action="/loginForm" method="POST">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <button type="submit" class="btn">Login</button>
+    </form>
+
+    <div class="extra-links">
+      <p>Don’t have an account? <a href="/register">Register</a></p>
+      <p><a href="/forgot-password" method="GET">Forgot Password?</a></p>
+    </div>
+
+    <button class="go-home" onclick="window.location.href='/'">Go Home</button>
+  </div>
+</body>
+</html>
