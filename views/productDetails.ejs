@@ -5,69 +5,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= product.name %> - MyShop</title>
   <style>
-    body {
-      background: #000;
-      font-family: Arial, sans-serif;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .container {
-      width: 350px;
-      padding: 20px;
-      background: #1c1c1c;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(255,255,255,0.1);
-      text-align: center;
-    }
-    img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
-    h1 {
-      font-size: 1.3rem;
-      margin-bottom: 8px;
-      color: #ffc107;
-    }
-    p {
-      margin-bottom: 10px;
-      color: #ccc;
-      font-size: 0.9rem;
-    }
-    .price {
-      font-size: 1.2rem;
-      color: #28a745;
-      margin-bottom: 15px;
-    }
-    .btn {
-      padding: 8px 15px;
-      background: #28a745;
-      color: #fff;
-      text-decoration: none;
-      border: none;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: background 0.3s;
-      margin: 5px;
-    }
-    .btn:hover {
-      background: #218838;
-    }
-    .back-btn {
-      background: #6c757d;
-    }
-    .back-btn:hover {
-      background: #5a6268;
-    }
-  </style>
+  body {
+    background: linear-gradient(135deg, #1a1a1a, #000);
+    font-family: Arial, sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .container {
+    width: 350px;
+    padding: 25px;
+    background: #1f1f1f;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+  }
+
+  img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #ffc107;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #ffc107;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  }
+
+  p {
+    margin-bottom: 12px;
+    color: #ccc;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .price {
+    font-size: 1.3rem;
+    color: #28a745;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #28a745, #20c997);
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    transition: 0.3s all ease;
+    margin-top: 10px;
+  }
+
+  .btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    background: linear-gradient(90deg, #20c997, #28a745);
+  }
+
+  .back-btn {
+    background: linear-gradient(90deg, #ffc107, #ffca2c);
+    color: #000;
+  }
+
+  .back-btn:hover {
+    background: linear-gradient(90deg, #ffca2c, #ffc107);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+  }
+</style>
 </head>
 <body>
   <div class="container">
@@ -75,11 +100,6 @@
     <h1><%= product.name %></h1>
     <p><%= product.description %></p>
     <p class="price">$<%= product.price %></p>
-
-    <!-- Add to Cart -->
-    <form action="/add-to-cart/<%= product._id %>" method="POST" style="margin-bottom:10px;">
-      <button class="btn" type="submit">Add to Cart</button>
-    </form>
 
     <!-- Back to Shop Button -->
     <form action="/shopNow" method="POST" style="display:inline;">

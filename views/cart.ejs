@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      background: #111; 
+      color: #fff; 
+      padding: 20px; 
+    }
+
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin-bottom: 20px; 
+    }
+
+    th, td { 
+      border-bottom: 1px solid #444; 
+      padding: 12px; 
+      text-align: center; 
+    }
+
+    th { 
+      text-transform: uppercase; 
+    }
+
+    td img { 
+      width: 80px; 
+      height: 80px; 
+      object-fit: cover; 
+      border-radius: 8px; 
+    }
+
+    .btn { 
+      border-radius: 6px; 
+      border: none; 
+      cursor: pointer; 
+      font-weight: bold;
+      font-size: 0.8rem;
+      transition: 0.2s;
+    }
+
+    .btn:hover { transform: scale(1.05); }
+
+    .btn-danger { 
+      background: #dc3545; 
+      color: white; 
+      padding: 4px 8px; 
+      height: 28px;
+    }
+    .btn-update { 
+      background: #007bff; 
+      color: white; 
+      padding: 4px 8px; 
+      height: 28px;
+    }
+    .btn-shop { 
+      background: #28a745; 
+      color: white; 
+      padding: 6px 12px; 
+      height: 35px;
+    }
+    .btn-home { 
+      background: #ffc107; 
+      color: #000; 
+      padding: 6px 12px; 
+      height: 35px;
+    }
+
+    .total { font-size: 1.2rem; font-weight: bold; margin-top: 10px; }
+    .actions form { display: inline-block; margin: 0 2px; }
+
+    /* Quantity input styling */
+    input[type="number"] {
+      width: 50px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      background: #1c1c1c;
+      color: #fff;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 4px #007bff;
+    }
+
+    /* Top buttons container */
+    .top-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    /* Checkout button alignment */
+  .btn-checkout {
+    background: #28a745; /* Green like your Shop button */
+    color: #fff;
+    padding: 8px 18px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    height: 40px;
+  }
+
+  .btn-checkout:hover {
+    background: #218838; /* Darker green on hover */
+    transform: scale(1.05);
+  }
+
+  </style>
+</head>
+<body>
+  <h1>Your Cart 🛒</h1>
+
+  <% if(!cart || cart.items.length === 0){ %>
+    <p>Your cart is empty. 
+      <form action="/shopNow" method="POST" style="display:inline;">
+        <button type="submit" class="btn btn-shop">Shop Now</button>
+      </form>
+    </p>
+  <% } else { %>
+
+    <!-- Top buttons -->
+    <div class="top-buttons">
+      <form action="/profile" method="GET" style="display:inline;">
+        <button type="submit" class="btn btn-home">← Back to Home</button>
+      </form>
+
+      <form action="/shopNow" method="POST" style="display:inline;">
+        <button type="submit" class="btn btn-shop">Back to Shop</button>
+      </form>
+    </div>
+
+    <table>
+      <tr>
+        <th>Image</th>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th>Action</th>
+      </tr>
+
+      <% cart.items.forEach(item => { %>
+        <tr>
+          <td>
+            <% if(item.productId.image && item.productId.image !== '') { %>
+              <img src="<%= item.productId.image.startsWith('http') ? item.productId.image : '/uploads/' + item.productId.image %>" alt="<%= item.productId.name %>">
+            <% } else { %>
+              <img src="/images/placeholder.png" alt="No Image">
+            <% } %>
+          </td>
+          <td><%= item.productId.name %></td>
+          <td>₹<%= item.productId.price %></td>
+          <td>
+            <form action="/cart/update" method="POST">
+              <input type="hidden" name="productId" value="<%= item.productId._id %>">
+              <input type="number" name="quantity" value="<%= item.quantity %>" min="1">
+              <button type="submit" class="btn btn-update">Update</button>
+            </form>
+          </td>
+          <td>₹<%= (item.productId.price || 0) * (item.quantity || 1) %></td>
+          <td class="actions">
+            <form action="/cart/remove" method="POST">
+              <input type="hidden" name="productId" value="<%= item.productId._id %>">
+              <button type="submit" class="btn btn-danger">Remove</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </table>
+
+    <p class="total">Total: ₹<%= cart.totalPrice || 0 %></p>
+
+    <!-- Proceed to Checkout button at the bottom -->
+    <form action="/checkout" method="POST" style="margin-top: 20px; text-align: center;">
+      <button type="submit" class="btn btn-checkout">Proceed to Checkout</button>
+    </form>
+
+  <% } %>
+</body>
+</html>

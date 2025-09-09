@@ -19,10 +19,10 @@
     /* Clouds container */
     .clouds {
       position: fixed;
-      bottom: -200px;
+      top: 0;
       left: 0;
       width: 100%;
-      height: 200%;
+      height: 100%;
       pointer-events: none;
       overflow: hidden;
       z-index: -1;
@@ -30,22 +30,19 @@
 
     .cloud {
       position: absolute;
-      bottom: -250px;
       background: #fff;
       border-radius: 50%;
-      opacity: 0.8;
+      opacity: 0.7;
       filter: blur(2px);
-      animation: floatUp linear infinite;
     }
 
-    /* Build fluffy cloud with pseudo-elements */
     .cloud::before,
     .cloud::after {
       content: "";
       position: absolute;
       background: #fff;
       border-radius: 50%;
-      opacity: 0.8;
+      opacity: 0.7;
     }
 
     .cloud::before {
@@ -62,26 +59,9 @@
       right: -30%;
     }
 
-    /* Different cloud sizes & speeds */
-    .cloud:nth-child(1) {
-      width: 200px; height: 100px;
-      left: 15%;
-      animation-duration: 70s;
-    }
-    .cloud:nth-child(2) {
-      width: 250px; height: 120px;
-      left: 45%;
-      animation-duration: 90s;
-    }
-    .cloud:nth-child(3) {
-      width: 180px; height: 90px;
-      left: 70%;
-      animation-duration: 110s;
-    }
-
     @keyframes floatUp {
       from { transform: translateY(0); }
-      to { transform: translateY(-130vh); }
+      to { transform: translateY(-120vh); }
     }
 
     .products {
@@ -193,11 +173,7 @@
 <body>
 
   <!-- Clouds -->
-  <div class="clouds">
-    <div class="cloud"></div>
-    <div class="cloud"></div>
-    <div class="cloud"></div>
-  </div>
+  <div class="clouds" id="cloud-container"></div>
 
   <div class="products">
     <h2>☁️ All Products ☁️</h2>
@@ -215,7 +191,7 @@
               <img src="/uploads/<%= product.image %>" alt="<%= product.name %>">
               <h3><%= product.name %></h3>
               <p>$<%= product.price %></p>
-              <form action="/add-to-cart/<%= product._id %>" method="POST">
+              <form action="/cart/<%= product._id %>" method="POST">
                 <button type="submit">Add to Cart</button>
               </form>
             </div>
@@ -228,6 +204,44 @@
       </p>
     <% } %>
   </div>
+
+  <script>
+    const cloudContainer = document.getElementById("cloud-container");
+
+    function createCloud() {
+      const cloud = document.createElement("div");
+      cloud.classList.add("cloud");
+
+      // Random size (small clouds)
+      const size = Math.random() * 40 + 20; // 20px - 60px
+      cloud.style.width = size + "px";
+      cloud.style.height = size * 0.6 + "px";
+
+      // Random horizontal position
+      cloud.style.left = Math.random() * 95 + "%";
+
+      // Start below screen
+      cloud.style.top = "100vh";
+
+      // Random speed (5s - 20s)
+      const duration = Math.random() * 15 + 5;
+
+      cloud.style.animation = `floatUp ${duration}s linear forwards`;
+
+      // When finished, remove & respawn
+      cloud.addEventListener("animationend", () => {
+        cloud.remove();
+        createCloud();
+      });
+
+      cloudContainer.appendChild(cloud);
+    }
+
+    // Spawn initial clouds
+    for (let i = 0; i < 20; i++) {
+      setTimeout(createCloud, i * 500);
+    }
+  </script>
 
 </body>
 </html>
