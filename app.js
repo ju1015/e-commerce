@@ -37,6 +37,7 @@ function verifyToken(req,res,next){
     try{
         const decoded=jsonwebtoken.verify(token,'shhhh');
         req.user=decoded;
+        console.log(req.user);
         next();
     }catch(err){
         return res.status(401).send('Invalid or Expired token');
@@ -95,7 +96,7 @@ app.post('/loginForm',async (req,res)=>{
     if(!isMatch) return res.send('something went wrong');
 
     const token=jsonwebtoken.sign({id:user._id,username:user.username},'shhhh');
-    
+    console.log(token);
     res.cookie('token', token, {
         httpOnly: true,   // not accessible via JS
         secure: false,    // set true in production (HTTPS only)
